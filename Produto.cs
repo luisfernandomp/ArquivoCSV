@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Excel
 {    public class Produto
@@ -44,9 +45,35 @@ namespace Excel
                 produtos.Add(prod);
             }
 
+            produtos = produtos.OrderBy(y => y.Nome).ToList();
             return produtos;
         }
+        
+        public void Remover(string _termo){
+            List<string> linhas = new List<string>();
 
+            using(StreamReader arquivo = new StreamReader(PATH)){
+                string linha;
+                while((linha = arquivo.ReadLine()) != null){
+                    linhas.Add(linha); 
+
+                }
+            }
+            linhas.RemoveAll(x => x.Contains(_termo));
+
+            // Usar o using tira a obritoriedade de abrir e fechar as conexões
+            using(StreamWriter output = new StreamWriter(PATH)){
+                foreach (string ln in linhas)
+                {
+                    output.Write(ln + "\n");
+                }
+            }
+        }
+
+        public List<Produto> Filtrar (string _nome){
+                return Ler().FindAll(x => x.Nome == _nome);
+
+        }
         private string Separar (string _coluna) {
             return _coluna.Split ("=")[1];
         }
