@@ -14,6 +14,7 @@ namespace Excel
             p1.Preco = 4500f;
 
             p1.Cadastrar(p1);
+            p1.Remover("Fender");
 
             List<Produto> lista = new List<Produto>();
             lista = p1.Ler();
