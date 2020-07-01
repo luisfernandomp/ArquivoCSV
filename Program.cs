@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Excel
 {
@@ -13,6 +14,14 @@ namespace Excel
             p1.Preco = 4500f;
 
             p1.Cadastrar(p1);
+
+            List<Produto> lista = new List<Produto>();
+            lista = p1.Ler();
+
+            foreach (Produto item in lista)
+            {
+                System.Console.WriteLine($"R${item.Preco} - {item.Nome}");
+            }
         }
     }
 }
