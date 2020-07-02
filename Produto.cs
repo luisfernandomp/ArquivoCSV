@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 
 namespace Excel
-{    public class Produto
+{    public class Produto : IProduto
     {
         public int Codigo { get; set; }
         public string Nome { get; set;}
@@ -62,13 +62,16 @@ namespace Excel
             linhas.RemoveAll(x => x.Contains(_termo));
 
             // Usar o using tira a obritoriedade de abrir e fechar as conexões
-            using(StreamWriter output = new StreamWriter(PATH)){
-                foreach (string ln in linhas)
+            ReescreverCSV(linhas);
+        }   
+        private void ReescreverCSV(List<string> lines){
+             using(StreamWriter output = new StreamWriter(PATH)){
+                foreach (string ln in lines)
                 {
                     output.Write(ln + "\n");
                 }
             }
-        }   
+        }
         public void Alterar(Produto _produtoAlterado){
             List<string> linhas = new List<string>();
 
@@ -86,12 +89,7 @@ namespace Excel
             linhas.Add(PrepararLinha(_produtoAlterado));
             
             // Usar o using tira a obritoriedade de abrir e fechar as conexões
-            using(StreamWriter output = new StreamWriter(PATH)){
-                foreach (string ln in linhas)
-                {
-                    output.Write(ln + "\n");
-                }
-            }
+            ReescreverCSV(linhas);
         }
         public List<Produto> Filtrar (string _nome){
                 return Ler().FindAll(x => x.Nome == _nome);
